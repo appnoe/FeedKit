@@ -27,12 +27,15 @@ import UIKit
 class FeedDetailTableViewController: UITableViewController {
     
     fileprivate let text: String
-    
+    fileprivate let attributedText: NSAttributedString
+
     init(text: String) {
         self.text = text
+        let theDescriptionTagger = DescriptionTagger(inText: self.text)
+        self.attributedText = theDescriptionTagger.namesPlacesAndOrganisations()
         super.init(style: .grouped)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -49,7 +52,7 @@ class FeedDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = self.text
+        cell.textLabel?.attributedText = self.attributedText
         return cell
     }
     
